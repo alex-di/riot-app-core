@@ -9,7 +9,7 @@
     }
   } else {
     global = exports;
-    riot = require("./riotjs/riot");
+    riot = require("riotjs");
   }
 
   App = function(conf) {

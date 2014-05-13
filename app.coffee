@@ -4,7 +4,7 @@ if window?
     throw "riot not defined"
 else
   global = exports
-  riot = require "./riotjs/riot"
+  riot = require "riotjs"
 # only single global variable is exposed
 
 App = (conf) ->
