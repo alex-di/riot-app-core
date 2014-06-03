@@ -1,3 +1,15 @@
+Object.defineProperty Object.prototype, "extend",
+    enumerable: false,
+    value: (from) ->
+      props = Object.getOwnPropertyNames(from);
+      dest = @;
+      props.forEach (name) ->
+        if (name in dest)
+          destination = Object.getOwnPropertyDescriptor(from, name)
+          Object.defineProperty(dest, name, destination)
+      return @;
+
+
 if window?
   global = window
   unless riot?
@@ -9,12 +21,13 @@ else
 
 App = (conf) ->
   self = riot.observable(@)
-  $.extend self, conf
+  self.extend conf
 
   # Fake delay for correct event triggering
   setTimeout ->
     self.trigger "ready"
   , 1
+  return self
 
 global.app = riot.observable (arg) ->
 
@@ -22,7 +35,7 @@ global.app = riot.observable (arg) ->
   return instance unless arg
 
   # function argument --> bind a new module
-  if $.isFunction arg
+  if typeof arg is "function"
     app.on "ready", arg
 
     # configuration argument
